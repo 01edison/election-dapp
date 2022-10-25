@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat");
 
-async function addCandidate(name, party, state) {
+async function addCandidate(name, party) {
   const election = await ethers.getContract("Election");
 
   const tx = await election.addCandidate(name, party);
@@ -9,7 +9,7 @@ async function addCandidate(name, party, state) {
   console.log(txReceipt.events[0].args);
 }
 
-addCandidate("Atiku Abubakar", "People's Democratic Party")
+addCandidate("Okudili Anyajike", "National Rescue Mission")
   .then(() => process.exit(0))
   .catch((e) => {
     console.log(e);

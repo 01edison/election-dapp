@@ -47,6 +47,8 @@ contract Election {
         // addCandidate("Malik Ado-Ibrahim", "Young Progressive Party");
         // addCandidate("Omoyele Sowore", "African Action Congress");
         // addCandidate("Peter Umeadi", "All Progressives Grand Alliance");
+        // addCandidate("Okudili Anyajike", "National Rescue Mission");
+        // addCandidate("Rabiu Musa Kwankwaso", "New Nigeria Peoples Party");
     }
 
     function addCandidate(string memory _name, string memory _party) public {

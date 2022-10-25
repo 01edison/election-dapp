@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "@web3uikit/core";
 

@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Election.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.4;\r\n\r\nerror Election__AlreadyVoted();\r\nerror Election_CandidateDoesNotExist();\r\nerror Election__CandidateAlreadyExists();\r\n\r\ncontract Election {\r\n    struct Candidate {\r\n        string name;\r\n        string party;\r\n        uint256 votes;\r\n    }\r\n\r\n    uint256 public numCandidates;\r\n    mapping(uint256 => Candidate) public candidates;\r\n    mapping(address => bool) public hasVoted;\r\n\r\n    event CandidateAdded(\r\n        string name,\r\n        string party,\r\n        uint256 indexed votes,\r\n        address indexed contractAddress\r\n    );\r\n    event Voted(\r\n        string candidateName,\r\n        string candidateParty,\r\n        uint256 indexed candidateVoteCount\r\n    );\r\n\r\n    modifier notVoted() {\r\n        if (!hasVoted[msg.sender]) {\r\n            _;\r\n        } else {\r\n            revert Election__AlreadyVoted();\r\n        }\r\n    }\r\n\r\n    constructor() {\r\n        // addCandidate(\"Peter Obi\", \"Labour Party\");\r\n        // addCandidate(\"Bola Tinubu\", \"All Progressives Congress\");\r\n        // addCandidate(\"Adewole Adebayo\", \"Social Democratic Party\");\r\n        // addCandidate(\"Atiku Abubakar\", \"People's Democratic Party\");\r\n        // addCandidate(\"Dumebi Kachikwu\", \"African Democratic Congress\");\r\n        // addCandidate(\"Hamza Al-Mustapha\", \"Action Alliance\");\r\n        // addCandidate(\"Kola Abiola\", \"Peoples Redemption Party\");\r\n        // addCandidate(\"Malik Ado-Ibrahim\", \"Young Progressive Party\");\r\n        // addCandidate(\"Omoyele Sowore\", \"African Action Congress\");\r\n        // addCandidate(\"Peter Umeadi\", \"All Progressives Grand Alliance\");\r\n        // addCandidate(\"Okudili Anyajike\", \"National Rescue Mission\");\r\n        // addCandidate(\"Rabiu Musa Kwankwaso\", \"New Nigeria Peoples Party\");\r\n    }\r\n\r\n    function addCandidate(string memory _name, string memory _party) public {\r\n        for (uint i = 0; i < numCandidates; i++) {\r\n            Candidate memory candidate = candidates[i];\r\n            if (\r\n                keccak256(abi.encodePacked(candidate.name)) ==\r\n                keccak256(abi.encodePacked(_name)) ||\r\n                keccak256(abi.encodePacked(candidate.party)) ==\r\n                keccak256(abi.encodePacked(_party))\r\n            ) {\r\n                revert Election__CandidateAlreadyExists();\r\n            }\r\n        }\r\n\r\n        candidates[numCandidates] = Candidate(_name, _party, 0);\r\n        numCandidates += 1;\r\n        emit CandidateAdded(_name, _party, 0, address(this));\r\n    }\r\n\r\n    function vote(uint256 index) public notVoted {\r\n        if (index > numCandidates - 1) {\r\n            revert Election_CandidateDoesNotExist();\r\n        } else {\r\n            candidates[index].votes += 1; // this actually updates state\r\n            hasVoted[msg.sender] = true;\r\n            Candidate memory candidate = candidates[index]; // this \"memory\" reads from state\r\n            emit Voted(candidate.name, candidate.party, candidate.votes);\r\n        }\r\n    }\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

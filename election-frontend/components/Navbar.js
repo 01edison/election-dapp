@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav>
       <Link href="/">
-        <a className="nav-title">E-Voting Page</a>
+        <a className="nav-title">E-Voting Dapp</a>
       </Link>
       <ConnectButton moralisAuth={false} />
     </nav>
